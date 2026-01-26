@@ -32,6 +32,7 @@ public class Instructor extends User{
             if(courseId.equalsIgnoreCase(course.getCourseId())){
                 Lesson lesson = new Lesson(lessonId, title, content);
                 course.addLesson(lesson);
+                db.saveCourses(courses);
                 return true;
             }
         }
