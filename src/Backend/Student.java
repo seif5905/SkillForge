@@ -13,4 +13,6 @@ public class Student extends User{
         enrolledCourses = new ArrayList<>();
         progress = new ArrayList<>();
     }
+
+    public boolean enrollInCourse()
 }

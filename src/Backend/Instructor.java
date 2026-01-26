@@ -21,6 +21,11 @@ public class Instructor extends User{
         }
         Course course = new Course(courseId, title, description, this.getUserid());
         courses.add(course);
+        createdCourses.add(courseId);
         return true;
+    }
+
+    public boolean addLesson(String courseId, String lessonId, String title, String content){
+
     }
 }

@@ -28,7 +28,10 @@ public class Course {
         this.instructorId = instructorId;
     }
 
+    public boolean addLesson(String lessonId, String title, String content){
+        DatabaseManager db = new DatabaseManager();
 
+    }
 
     public String getTitle() {
         return title;
