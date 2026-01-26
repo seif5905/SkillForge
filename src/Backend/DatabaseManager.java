@@ -1,43 +1,66 @@
 package Backend;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.*;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class DatabaseManager {
 
     public ArrayList<User> loadUsers(){
-        ArrayList<User> users = new ArrayList<>();
+        Gson gson = new Gson();
+        Type userListType = new TypeToken<ArrayList<User>>() {}.getType();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader("users.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String parts[] = line.split(",");
-                User user = new User(parts[0],parts[1],parts[2],parts[3],parts[4]);
-                users.add(user);
-            }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        try(FileReader reader = new FileReader("users.json")){
+            ArrayList<User> users = gson.fromJson(reader, userListType);
+
+            if(users != null)
+                return users;
+            return new ArrayList<>();
         }
-        return users;
+        catch(IOException e){
+            return new ArrayList<>();
+        }
     }
 
     public void saveUsers(ArrayList<User> users){
-        try (FileWriter writer = new FileWriter("users.txt")) {
-            for (User user : users) {
-                String line =
-                        user.getUserid() + "," +
-                                user.getRole() + "," +
-                                user.getUsername() + "," +
-                                user.getEmail() + "," +
-                                user.getPasswordHash() + ",";
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-                writer.write(line);
-                writer.write(System.lineSeparator());
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        try(FileWriter writer = new FileWriter("users.json")){
+            gson.toJson(users, writer);
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public ArrayList<Course> loadCourses(){
+        Gson gson = new Gson();
+        Type userListType = new TypeToken<ArrayList<Course>>() {}.getType();
+
+        try(FileReader reader = new FileReader("courses.json")){
+            ArrayList<Course> courses = gson.fromJson(reader, userListType);
+
+            if(courses != null)
+                return courses;
+            return new ArrayList<>();
+        }
+        catch(IOException e){
+            return new ArrayList<>();
+        }
+    }
+
+    public void saveCourses(ArrayList<Course> courses){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+        try(FileWriter writer = new FileWriter("courses.json")){
+            gson.toJson(courses, writer);
+        }
+        catch(IOException e){
+            e.printStackTrace();
         }
     }
 }
