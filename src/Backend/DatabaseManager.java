@@ -11,7 +11,8 @@ import java.util.ArrayList;
 public class DatabaseManager {
 
     public ArrayList<User> loadUsers(){
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().registerTypeAdapter(User.class, new UserAdapter()).create();
+
         Type userListType = new TypeToken<ArrayList<User>>() {}.getType();
 
         try(FileReader reader = new FileReader("users.json")){
@@ -62,5 +63,15 @@ public class DatabaseManager {
         catch(IOException e){
             e.printStackTrace();
         }
+    }
+
+    public Course getCourseById(String courseId){
+        ArrayList<Course> courses = loadCourses();
+
+        for(Course course : courses){
+            if(course.getCourseId().equalsIgnoreCase(courseId))
+                return course;
+        }
+        return null;
     }
 }

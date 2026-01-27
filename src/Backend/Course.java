@@ -9,16 +9,22 @@ public class Course {
     private String description;
     private String instructorId;
     private ArrayList<Lesson> lessons;
-    private ArrayList<Student> students;
+    private ArrayList<String> students;
 
     public Course(String courseId, String title, String description, String instructorId,
-                  ArrayList<Lesson> lessons, ArrayList<Student> students){
+                  ArrayList<Lesson> lessons, ArrayList<String> students){
         this.courseId = courseId;
         this.title = title;
         this.description = description;
         this.instructorId = instructorId;
-        this.lessons = lessons;
-        this.students = students;
+        if(lessons != null)
+            this.lessons = lessons;
+        else
+            this.lessons = new ArrayList<>();
+        if(students != null)
+            this.students = students;
+        else
+            this.students = new ArrayList<>();
     }
 
     public Course(String courseId, String title, String description, String instructorId){
@@ -26,6 +32,8 @@ public class Course {
         this.title = title;
         this.description = description;
         this.instructorId = instructorId;
+        this.lessons = new ArrayList<>();
+        this.students = new ArrayList<>();
     }
 
     public void addLesson(Lesson lesson){
@@ -33,7 +41,7 @@ public class Course {
     }
 
     public void addStudent(Student student){
-        this.students.add(student);
+        this.students.add(student.getUserid());
     }
 
     public String getTitle() {
@@ -42,10 +50,10 @@ public class Course {
     public void setTitle(String title) {
         this.title = title;
     }
-    public ArrayList<Student> getStudents() {
+    public ArrayList<String> getStudents() {
         return students;
     }
-    public void setStudents(ArrayList<Student> students) {
+    public void setStudents(ArrayList<String> students) {
         this.students = students;
     }
     public ArrayList<Lesson> getLessons() {

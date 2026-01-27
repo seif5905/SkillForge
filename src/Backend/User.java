@@ -22,8 +22,7 @@ public class User {
         ArrayList<User> users = db.loadUsers();
         for (int i = 0; i < users.size(); i++) {
             if(users.get(i).getUsername().equalsIgnoreCase(this.username) ||
-                    users.get(i).getEmail().equalsIgnoreCase(this.email) ||
-                    users.get(i).getPasswordHash().equalsIgnoreCase(this.passwordHash))
+                    users.get(i).getEmail().equalsIgnoreCase(this.email))
                 return false;
         }
         users.add(this);

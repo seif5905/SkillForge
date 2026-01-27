@@ -12,5 +12,22 @@ public class Lesson {
         this.content = content;
     }
 
-
+    public String getLessonId() {
+        return lessonId;
+    }
+    public void setLessonId(String lessonId) {
+        this.lessonId = lessonId;
+    }
+    public String getTitle() {
+        return title;
+    }
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    public String getContent() {
+        return content;
+    }
+    public void setContent(String content) {
+        this.content = content;
+    }
 }
