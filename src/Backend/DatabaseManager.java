@@ -10,6 +10,17 @@ import java.util.ArrayList;
 
 public class DatabaseManager {
 
+    public <T> void save(ArrayList<T> list, String filename){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+        try(FileWriter writer = new FileWriter(filename)){
+            gson.toJson(list, writer);
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
     public ArrayList<User> loadUsers(){
         Gson gson = new GsonBuilder().registerTypeAdapter(User.class, new UserAdapter()).create();
 
@@ -28,14 +39,7 @@ public class DatabaseManager {
     }
 
     public void saveUsers(ArrayList<User> users){
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-        try(FileWriter writer = new FileWriter("users.json")){
-            gson.toJson(users, writer);
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
+        save(users, "users.json");
     }
 
     public ArrayList<Course> loadCourses(){
@@ -55,14 +59,7 @@ public class DatabaseManager {
     }
 
     public void saveCourses(ArrayList<Course> courses){
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-        try(FileWriter writer = new FileWriter("courses.json")){
-            gson.toJson(courses, writer);
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
+        save(courses, "courses.json");
     }
 
     public Course getCourseById(String courseId){
