@@ -14,6 +14,7 @@ public class Instructor extends User{
     public boolean createCourse(String courseId, String title, String description){
         DatabaseManager db = new DatabaseManager();
         ArrayList<Course> courses = db.loadCourses();
+        ArrayList<User> users = db.loadUsers();
         for(Course course : courses){
             if(course.getCourseId().equalsIgnoreCase(courseId) ||
                     course.getTitle().equalsIgnoreCase(title))
@@ -22,6 +23,8 @@ public class Instructor extends User{
         Course course = new Course(courseId, title, description, this.getUserid());
         courses.add(course);
         createdCourses.add(course);
+        db.saveCourses(courses);
+        db.saveUsers(users);
         return true;
     }
 
@@ -31,9 +34,11 @@ public class Instructor extends User{
         for(Course course : this.createdCourses){
             if(courseId.equalsIgnoreCase(course.getCourseId())){
                 Lesson lesson = new Lesson(lessonId, title, content);
-                course.addLesson(lesson);
-                db.saveCourses(courses);
-                return true;
+                if(!(course.getLessons().contains(lesson))) {
+                    course.addLesson(lesson);
+                    db.saveCourses(courses);
+                    return true;
+                }
             }
         }
         return false;
@@ -48,5 +53,12 @@ public class Instructor extends User{
             }
         }
         return new ArrayList<>();
+    }
+
+    public ArrayList<Course> getCreatedCourses() {
+        return createdCourses;
+    }
+    public void setCreatedCourses(ArrayList<Course> createdCourses) {
+        this.createdCourses = createdCourses;
     }
 }

@@ -32,6 +32,10 @@ public class Course {
         this.lessons.add(lesson);
     }
 
+    public void addStudent(Student student){
+        this.students.add(student);
+    }
+
     public String getTitle() {
         return title;
     }
