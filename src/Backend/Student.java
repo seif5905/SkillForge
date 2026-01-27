@@ -47,6 +47,11 @@ public class Student extends User{
         return false;
     }
 
+    public ArrayList<Course> getAvailableCourses(){
+        DatabaseManager db = new DatabaseManager();
+        return db.loadCourses();
+    }
+
     public ArrayList<String> getEnrolledCourses() {
         return enrolledCourses;
     }
