@@ -6,13 +6,17 @@ public class Instructor extends User{
 
     private ArrayList<String> createdCourses;
 
-    public Instructor(String userid, String role, String username, String email, String passwordHash,
+    public Instructor(String userid, String username, String email, String passwordHash,
                    ArrayList<String> createdCourses){
-        super(userid, role, username, email, passwordHash);
+        super(userid, "Instructor", username, email, passwordHash);
         if(createdCourses != null)
             this.createdCourses = createdCourses;
         else
             this.createdCourses = new ArrayList<>();
+    }
+    public Instructor(String userid, String username, String email, String passwordHash){
+        super(userid, "Instructor", username, email, passwordHash);
+        this.createdCourses = new ArrayList<>();
     }
     public boolean createCourse(String courseId, String title, String description){
         DatabaseManager db = new DatabaseManager();

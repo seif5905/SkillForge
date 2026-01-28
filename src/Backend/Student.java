@@ -7,9 +7,9 @@ public class Student extends User{
     private ArrayList<String> enrolledCourses;
     private ArrayList<String> progress;
 
-    public Student(String userid, String role, String username, String email, String passwordHash,
+    public Student(String userid, String username, String email, String passwordHash,
                    ArrayList<String> enrolledCourses, ArrayList<String> progress){
-        super(userid, role, username, email, passwordHash);
+        super(userid, "Student", username, email, passwordHash);
         if(enrolledCourses != null)
             this.enrolledCourses = enrolledCourses;
         else
@@ -18,6 +18,11 @@ public class Student extends User{
             this.progress = progress;
         else
             this.progress = new ArrayList<>();
+    }
+    public Student(String userid, String username, String email, String passwordHash){
+        super(userid, "Student", username, email, passwordHash);
+        this.enrolledCourses = new ArrayList<>();
+        this.progress = new ArrayList<>();
     }
 
     public boolean enrollInCourse(String courseId){

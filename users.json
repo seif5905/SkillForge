@@ -1,0 +1,23 @@
+[
+  {
+    "enrolledCourses": [
+      "c101"
+    ],
+    "progress": [],
+    "userid": "20037",
+    "role": "Student",
+    "username": "seif",
+    "email": "seif@yahoo.com",
+    "passwordHash": "123"
+  },
+  {
+    "createdCourses": [
+      "c101"
+    ],
+    "userid": "35348",
+    "role": "Instructor",
+    "username": "ali",
+    "email": "ali@yahoo.com",
+    "passwordHash": "123"
+  }
+]

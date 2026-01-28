@@ -1,0 +1,18 @@
+[
+  {
+    "courseId": "c101",
+    "title": "java",
+    "description": "learn java",
+    "instructorId": "35348",
+    "lessons": [
+      {
+        "lessonId": "001",
+        "title": "hello world",
+        "content": "learn hello world"
+      }
+    ],
+    "students": [
+      "20037"
+    ]
+  }
+]
