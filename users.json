@@ -1,23 +1,28 @@
 [
   {
-    "enrolledCourses": [
-      "c101"
+    "createdCourses": [
+      "cs101"
     ],
+    "userid": "14005",
+    "role": "Instructor",
+    "username": "ali",
+    "email": "ali@yahoo.com",
+    "passwordHash": "123"
+  },
+  {
+    "enrolledCourses": [],
     "progress": [],
-    "userid": "20037",
+    "userid": "73764",
     "role": "Student",
     "username": "seif",
     "email": "seif@yahoo.com",
     "passwordHash": "123"
   },
   {
-    "createdCourses": [
-      "c101"
-    ],
-    "userid": "35348",
-    "role": "Instructor",
-    "username": "ali",
-    "email": "ali@yahoo.com",
+    "userid": "66493",
+    "role": "Admin",
+    "username": "ahmed",
+    "email": "ahmed@yahoo.com",
     "passwordHash": "123"
   }
 ]

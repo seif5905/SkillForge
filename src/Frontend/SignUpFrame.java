@@ -4,6 +4,7 @@
  */
 package Frontend;
 
+import Backend.Admin;
 import Backend.Instructor;
 import Backend.Student;
 import Backend.User;
@@ -72,7 +73,7 @@ public class SignUpFrame extends javax.swing.JFrame {
         jLabel4.setText("Role :");
         jPanel1.add(jLabel4);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Student", "Instructor" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Student", "Instructor" , "Admin"}));
         jPanel1.add(jComboBox1);
         jPanel1.add(jLabel5);
 
@@ -107,8 +108,10 @@ public class SignUpFrame extends javax.swing.JFrame {
 
         if(role.equalsIgnoreCase("Student"))
              user = new Student(id, username, email, password);
-        else
+        else if(role.equalsIgnoreCase("Instructor"))
              user = new Instructor(id, username, email, password);
+        else
+             user = new Admin(id, username, email, password);
 
         if(user.signup()){
             javax.swing.JOptionPane.showMessageDialog(this, "SignUp Successful");

@@ -8,6 +8,7 @@ public class Course {
     private String title;
     private String description;
     private String instructorId;
+    private String status;
     private ArrayList<Lesson> lessons;
     private ArrayList<String> students;
 
@@ -17,6 +18,7 @@ public class Course {
         this.title = title;
         this.description = description;
         this.instructorId = instructorId;
+        this.status = "pending";
         if(lessons != null)
             this.lessons = lessons;
         else
@@ -32,6 +34,7 @@ public class Course {
         this.title = title;
         this.description = description;
         this.instructorId = instructorId;
+        this.status = "pending";
         this.lessons = new ArrayList<>();
         this.students = new ArrayList<>();
     }
@@ -79,5 +82,11 @@ public class Course {
     }
     public void setCourseId(String courseId) {
         this.courseId = courseId;
+    }
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

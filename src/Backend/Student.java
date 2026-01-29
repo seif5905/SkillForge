@@ -54,7 +54,14 @@ public class Student extends User{
 
     public ArrayList<Course> getAvailableCourses(){
         DatabaseManager db = new DatabaseManager();
-        return db.loadCourses();
+        ArrayList<Course> courses = db.loadCourses();
+        ArrayList<Course> availableCourses = new ArrayList<>();
+
+        for (Course course : courses){
+            if(course.getStatus().equalsIgnoreCase("approved"))
+                availableCourses.add(course);
+        }
+        return availableCourses;
     }
 
     public ArrayList<String> getEnrolledCourses() {

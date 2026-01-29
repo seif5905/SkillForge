@@ -13,7 +13,6 @@ public class InstructorDashboard extends javax.swing.JFrame {
     private DefaultListModel<String> courseListModel;
     private DefaultListModel<String> lessonListModel;
 
-    // GUI Components
     private JList<String> courseJList;
     private JList<String> lessonJList;
     private JLabel welcomeLabel;
@@ -29,12 +28,11 @@ public class InstructorDashboard extends javax.swing.JFrame {
 
     private void initComponents() {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new Dimension(1000, 600));
+        setMinimumSize(new Dimension(1000, 700)); // Increased height for more buttons
 
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        // --- TOP: Welcome Message ---
         welcomeLabel = new JLabel("Welcome, Instructor " + currentInstructor.getUsername());
         welcomeLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
         mainPanel.add(welcomeLabel, BorderLayout.NORTH);
@@ -52,17 +50,15 @@ public class InstructorDashboard extends javax.swing.JFrame {
         leftPanel.setPreferredSize(new Dimension(200, 0));
         mainPanel.add(leftPanel, BorderLayout.WEST);
 
-        // --- CENTER: Lessons & Description Split ---
+        // --- CENTER: Lessons & Description ---
         JPanel centerPanel = new JPanel(new GridLayout(2, 1, 5, 5));
 
-        // Top Center: Description
         JPanel descPanel = new JPanel(new BorderLayout());
         descPanel.setBorder(BorderFactory.createTitledBorder("Course Description"));
         descriptionArea = new JTextArea();
         descriptionArea.setEditable(false);
         descPanel.add(new JScrollPane(descriptionArea), BorderLayout.CENTER);
 
-        // Bottom Center: Lesson List
         JPanel lessonPanel = new JPanel(new BorderLayout());
         lessonPanel.setBorder(BorderFactory.createTitledBorder("Lessons in Selected Course"));
         lessonListModel = new DefaultListModel<>();
@@ -74,19 +70,25 @@ public class InstructorDashboard extends javax.swing.JFrame {
         mainPanel.add(centerPanel, BorderLayout.CENTER);
 
         // --- RIGHT: Action Buttons ---
-        JPanel rightPanel = new JPanel(new GridLayout(8, 1, 5, 5));
+        // Changed to 10 rows to accommodate Edit buttons
+        JPanel rightPanel = new JPanel(new GridLayout(10, 1, 5, 5));
         rightPanel.setPreferredSize(new Dimension(180, 0));
 
         JButton btnCreate = new JButton("Create Course");
+        JButton btnEditCourse = new JButton("Edit Course");
         JButton btnDeleteCourse = new JButton("Delete Course");
         JButton btnAddLesson = new JButton("Add Lesson");
+        JButton btnEditLesson = new JButton("Edit Lesson");
         JButton btnDeleteLesson = new JButton("Delete Lesson");
         JButton btnViewStudents = new JButton("View Students");
         JButton btnLogout = new JButton("Logout");
 
+        // Action Listeners
         btnCreate.addActionListener(evt -> onCreateCourse());
+        btnEditCourse.addActionListener(evt -> onEditCourse());
         btnDeleteCourse.addActionListener(evt -> onDeleteCourse());
         btnAddLesson.addActionListener(evt -> onAddLesson());
+        btnEditLesson.addActionListener(evt -> onEditLesson());
         btnDeleteLesson.addActionListener(evt -> onDeleteLesson());
         btnViewStudents.addActionListener(evt -> onViewStudents());
         btnLogout.addActionListener(evt -> {
@@ -95,9 +97,11 @@ public class InstructorDashboard extends javax.swing.JFrame {
         });
 
         rightPanel.add(btnCreate);
+        rightPanel.add(btnEditCourse);
         rightPanel.add(btnDeleteCourse);
         rightPanel.add(new JSeparator());
         rightPanel.add(btnAddLesson);
+        rightPanel.add(btnEditLesson);
         rightPanel.add(btnDeleteLesson);
         rightPanel.add(new JSeparator());
         rightPanel.add(btnViewStudents);
@@ -106,6 +110,93 @@ public class InstructorDashboard extends javax.swing.JFrame {
         mainPanel.add(rightPanel, BorderLayout.EAST);
         add(mainPanel);
     }
+
+    // --- NEW EDIT LOGIC ---
+
+    private void onEditCourse() {
+        String courseId = getSelectedCourseId();
+        if (courseId == null) {
+            JOptionPane.showMessageDialog(this, "Please select a course to edit.");
+            return;
+        }
+
+        Course course = db.getCourseById(courseId);
+        JTextField titleField = new JTextField(course.getTitle());
+        JTextArea descField = new JTextArea(course.getDescription(), 5, 20);
+
+        Object[] message = {
+                "Course ID (Cannot Change): " + courseId,
+                "New Title:", titleField,
+                "New Description:", new JScrollPane(descField)
+        };
+
+        int option = JOptionPane.showConfirmDialog(null, message, "Edit Course", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            ArrayList<Course> courses = db.loadCourses();
+            for (Course c : courses) {
+                if (c.getCourseId().equalsIgnoreCase(courseId)) {
+                    c.setTitle(titleField.getText());
+                    c.setDescription(descField.getText());
+                    break;
+                }
+            }
+            db.saveCourses(courses);
+            refreshCourseList();
+            updateDescription();
+            JOptionPane.showMessageDialog(this, "Course updated!");
+        }
+    }
+
+    private void onEditLesson() {
+        String courseId = getSelectedCourseId();
+        String lessonId = getSelectedLessonId();
+
+        if (courseId == null || lessonId == null) {
+            JOptionPane.showMessageDialog(this, "Please select both a course and a lesson to edit.");
+            return;
+        }
+
+        Course course = db.getCourseById(courseId);
+        Lesson targetLesson = null;
+        for (Lesson l : course.getLessons()) {
+            if (l.getLessonId().equalsIgnoreCase(lessonId)) {
+                targetLesson = l;
+                break;
+            }
+        }
+
+        if (targetLesson == null) return;
+
+        JTextField titleField = new JTextField(targetLesson.getTitle());
+        JTextArea contentField = new JTextArea(targetLesson.getContent(), 8, 20);
+
+        Object[] message = {
+                "Lesson ID: " + lessonId,
+                "New Title:", titleField,
+                "New Content:", new JScrollPane(contentField)
+        };
+
+        int option = JOptionPane.showConfirmDialog(null, message, "Edit Lesson", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            ArrayList<Course> allCourses = db.loadCourses();
+            for (Course c : allCourses) {
+                if (c.getCourseId().equalsIgnoreCase(courseId)) {
+                    for (Lesson l : c.getLessons()) {
+                        if (l.getLessonId().equalsIgnoreCase(lessonId)) {
+                            l.setTitle(titleField.getText());
+                            l.setContent(contentField.getText());
+                            break;
+                        }
+                    }
+                }
+            }
+            db.saveCourses(allCourses);
+            refreshLessonList();
+            JOptionPane.showMessageDialog(this, "Lesson updated!");
+        }
+    }
+
+    // --- REFRESH AND HELPER METHODS ---
 
     private void refreshCourseList() {
         courseListModel.clear();

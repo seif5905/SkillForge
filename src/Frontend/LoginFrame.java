@@ -72,7 +72,7 @@ public class LoginFrame extends javax.swing.JFrame {
         jLabel3.setText(" Role :");
         jPanel1.add(jLabel3);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Student", "Instructor" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Student", "Instructor", "Admin"}));
         jPanel1.add(jComboBox1);
         jPanel1.add(jLabel4);
 
@@ -117,6 +117,9 @@ public class LoginFrame extends javax.swing.JFrame {
                 java.awt.EventQueue.invokeLater(() -> new InstructorDashboard((Instructor) user2).setVisible(true));
             else if(role.equalsIgnoreCase("Student"))
                 java.awt.EventQueue.invokeLater(() -> new StudentDashboard((Student) user2).setVisible(true));
+            else
+                java.awt.EventQueue.invokeLater(() -> new AdminDashboard((Admin) user2).setVisible(true));
+
         }
         else{
             javax.swing.JOptionPane.showMessageDialog(this, "Invalid Username/Email, Password, or Role.");

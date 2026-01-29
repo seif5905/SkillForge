@@ -18,6 +18,9 @@ public class UserAdapter implements JsonDeserializer<User> {
         else if (role.equalsIgnoreCase("Student"))
             return context.deserialize(json, Student.class);
 
+        else if (role.equalsIgnoreCase("Admin"))
+            return context.deserialize(json, Admin.class);
+
         return context.deserialize(json, User.class);
     }
 }

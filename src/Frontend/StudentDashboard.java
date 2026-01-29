@@ -101,7 +101,7 @@ public class StudentDashboard extends javax.swing.JFrame {
     private void refreshData() {
         // Refresh Catalog
         catalogListModel.clear();
-        ArrayList<Course> allCourses = db.loadCourses();
+        ArrayList<Course> allCourses = currentStudent.getAvailableCourses();
         for (Course c : allCourses) {
             catalogListModel.addElement(c.getCourseId() + " - " + c.getTitle());
         }
