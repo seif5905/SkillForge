@@ -39,6 +39,7 @@ public class Admin extends User{
         DatabaseManager db = new DatabaseManager();
         ArrayList<Course> courses = db.loadCourses();
         ArrayList<User> users = db.loadUsers();
+        ArrayList<Lesson> lessons = db.loadLessons();
 
         for (int i = 0; i < courses.size(); i++) {
             if(courses.get(i).getCourseId().equalsIgnoreCase(courseId)){
@@ -64,8 +65,14 @@ public class Admin extends User{
                         }
                     }
                 }
+                for (int j = lessons.size() - 1; j >= 0; j--) {
+                    if (lessons.get(j).getCourseId().equalsIgnoreCase(courseId)) {
+                        lessons.remove(j);
+                    }
+                }
                 db.saveCourses(courses);
                 db.saveUsers(users);
+                db.saveLessons(lessons);
                 return true;
             }
         }
@@ -75,6 +82,7 @@ public class Admin extends User{
         DatabaseManager db = new DatabaseManager();
         ArrayList<User> users = db.loadUsers();
         ArrayList<Course> courses = db.loadCourses();
+        ArrayList<Lesson> lessons = db.loadLessons();
 
         for (int i = 0; i < users.size(); i++) {
             if(users.get(i).getUserid().equalsIgnoreCase(userId)) {
@@ -89,7 +97,7 @@ public class Admin extends User{
                         }
                     }
                 }
-                // if user removed in instructor
+                // if user removed is instructor
                 for (int j = 0; j < courses.size(); j++) {
                     if(courses.get(j).getInstructorId().equalsIgnoreCase(userId)){
                         String courseId = courses.get(j).getCourseId();
@@ -106,10 +114,16 @@ public class Admin extends User{
                                 }
                             }
                         }
+                        for (int k = lessons.size() - 1; k >= 0; k--) {
+                            if (lessons.get(k).getCourseId().equalsIgnoreCase(courseId)){
+                                lessons.remove(k);
+                            }
+                        }
                     }
                 }
                 db.saveUsers(users);
                 db.saveCourses(courses);
+                db.saveLessons(lessons);
                 return true;
             }
         }

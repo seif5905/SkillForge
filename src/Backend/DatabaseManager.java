@@ -37,7 +37,6 @@ public class DatabaseManager {
             return new ArrayList<>();
         }
     }
-
     public void saveUsers(ArrayList<User> users){
         save(users, "users.json");
     }
@@ -57,9 +56,27 @@ public class DatabaseManager {
             return new ArrayList<>();
         }
     }
-
     public void saveCourses(ArrayList<Course> courses){
         save(courses, "courses.json");
+    }
+
+    public ArrayList<Lesson> loadLessons(){
+        Gson gson = new Gson();
+        Type userListType = new TypeToken<ArrayList<Lesson>>() {}.getType();
+
+        try(FileReader reader = new FileReader("lessons.json")){
+            ArrayList<Lesson> lessons = gson.fromJson(reader, userListType);
+
+            if(lessons != null)
+                return lessons;
+            return new ArrayList<>();
+        }
+        catch(IOException e){
+            return new ArrayList<>();
+        }
+    }
+    public void saveLessons(ArrayList<Lesson> lessons){
+        save(lessons, "lessons.json");
     }
 
     public Course getCourseById(String courseId){
@@ -68,6 +85,15 @@ public class DatabaseManager {
         for(Course course : courses){
             if(course.getCourseId().equalsIgnoreCase(courseId))
                 return course;
+        }
+        return null;
+    }
+    public Lesson getLessonById(String lessonId){
+        ArrayList<Lesson> lessons = loadLessons();
+
+        for (Lesson lesson : lessons){
+            if(lesson.getLessonId().equalsIgnoreCase(lessonId))
+                return lesson;
         }
         return null;
     }

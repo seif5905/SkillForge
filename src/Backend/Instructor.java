@@ -14,10 +14,12 @@ public class Instructor extends User{
         else
             this.createdCourses = new ArrayList<>();
     }
+
     public Instructor(String userid, String username, String email, String passwordHash){
         super(userid, "Instructor", username, email, passwordHash);
         this.createdCourses = new ArrayList<>();
     }
+
     public boolean createCourse(String courseId, String title, String description){
         DatabaseManager db = new DatabaseManager();
         ArrayList<Course> courses = db.loadCourses();
@@ -47,26 +49,42 @@ public class Instructor extends User{
         DatabaseManager db = new DatabaseManager();
         ArrayList<Course> courses = db.loadCourses();
         ArrayList<User> users = db.loadUsers();
+        ArrayList<Lesson> lessons = db.loadLessons();
 
         for(int i = 0; i < courses.size(); i++){
+
             if(courses.get(i).getCourseId().equalsIgnoreCase(courseId) &&
                     courses.get(i).getInstructorId().equalsIgnoreCase(this.getUserid())){
+
                 courses.remove(i);
                 createdCourses.remove(courseId);
+
                 for (int j = 0; j < users.size(); j++) {
+                    // for instructors
                     if(users.get(j).getUserid().equalsIgnoreCase(this.getUserid())){
                         users.set(j,this);
                     }
+                    // for students
                     else if(users.get(j) instanceof Student){
+
                         Student student = (Student) users.get(j);
                         if(student.getEnrolledCourses().contains(courseId)){
+
                             student.getEnrolledCourses().remove(courseId);
                             users.set(j,student);
                         }
                     }
                 }
+
+                for (int j = lessons.size() - 1; j >= 0; j--) {
+                    if (lessons.get(j).getCourseId().equalsIgnoreCase(courseId)){
+                        lessons.remove(j);
+                    }
+                }
+
                 db.saveUsers(users);
                 db.saveCourses(courses);
+                db.saveLessons(lessons);
                 return true;
             }
         }
@@ -76,14 +94,18 @@ public class Instructor extends User{
     public boolean addLesson(String courseId, String lessonId, String title, String content){
         DatabaseManager db = new DatabaseManager();
         ArrayList<Course> courses = db.loadCourses();
+        ArrayList<Lesson> lessons = db.loadLessons();
+
         for(Course course : courses){
 
             if(courseId.equalsIgnoreCase(course.getCourseId())){
 
                 if(course.getInstructorId().equalsIgnoreCase(this.getUserid())) {
 
-                    Lesson lesson = new Lesson(lessonId, title, content);
+                    Lesson lesson = new Lesson(lessonId, courseId , title, content);
+                    lessons.add(lesson);
                     course.addLesson(lesson);
+                    db.saveLessons(lessons);
                     db.saveCourses(courses);
                     return true;
                 }
@@ -95,15 +117,72 @@ public class Instructor extends User{
     public boolean deleteLesson(String lessonId){
         DatabaseManager db = new DatabaseManager();
         ArrayList<Course> courses = db.loadCourses();
+        ArrayList<Lesson> lessons = db.loadLessons();
+
+        boolean flag = false;
 
         for (int i = 0; i < courses.size(); i++) {
             if (courses.get(i).getInstructorId().equalsIgnoreCase(this.getUserid())) {
 
-                for (int j = 0; j < courses.get(i).getLessons().size(); j++) {
-                    if (courses.get(i).getLessons().get(j).getLessonId().equalsIgnoreCase(lessonId)) {
+                for (int j = 0; j < lessons.size(); j++) {
+                    if(lessons.get(j).getLessonId().equalsIgnoreCase(lessonId)){
+                        lessons.remove(j);
+                        flag = true;
+                        break;
+                    }
+                }
 
+                for (int j = 0; j < courses.get(i).getLessons().size(); j++) {
+                    if (courses.get(i).getLessons().get(j).equalsIgnoreCase(lessonId)) {
                         courses.get(i).getLessons().remove(j);
-                        db.saveCourses(courses);
+                        flag = true;
+                        break;
+                    }
+                }
+                if(flag) {
+                    db.saveLessons(lessons);
+                    db.saveCourses(courses);
+                }
+            }
+        }
+        return flag;
+    }
+
+    public boolean addQuiz(String courseId, String lessonId, String quizId, String passingScore, String title){
+        DatabaseManager db = new DatabaseManager();
+        ArrayList<Lesson> lessons = db.loadLessons();
+
+        for (Lesson lesson : lessons){
+            if (lesson.getLessonId().equalsIgnoreCase(lessonId) && lesson.getCourseId().equalsIgnoreCase(courseId)){
+
+                Quiz quiz = new Quiz(quizId, passingScore, title);
+                lesson.addQuiz(quiz);
+                db.saveLessons(lessons);
+                return true;
+            }
+        }
+
+        return false;
+    }
+    /*
+    public boolean deleteQuiz(){
+
+    }
+     */
+
+    public boolean addQuestion(String courseId, String lessonId, String quizId, String questionId,
+                               String questionTitle, ArrayList<String> choices, int passingScore){
+        DatabaseManager db = new DatabaseManager();
+        ArrayList<Lesson> lessons = db.loadLessons();
+
+        for (Lesson lesson : lessons){
+            if(lesson.getLessonId().equalsIgnoreCase(lessonId) && lesson.getCourseId().equalsIgnoreCase(courseId)){
+                for (Quiz quiz : lesson.getQuizzes()){
+                    if (quiz.getQuizId().equalsIgnoreCase(quizId)){
+
+                        Question question = new Question(questionId, questionTitle, choices, passingScore);
+                        quiz.addQuestion(question);
+                        db.saveLessons(lessons);
                         return true;
                     }
                 }
@@ -111,6 +190,11 @@ public class Instructor extends User{
         }
         return false;
     }
+    /*
+    public boolean deleteQuestion(){
+
+    }
+     */
 
     public ArrayList<String> viewEnrolledStudents(String courseId){
         DatabaseManager db = new DatabaseManager();

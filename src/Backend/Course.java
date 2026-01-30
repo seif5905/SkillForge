@@ -9,11 +9,11 @@ public class Course {
     private String description;
     private String instructorId;
     private String status;
-    private ArrayList<Lesson> lessons;
+    private ArrayList<String> lessons;
     private ArrayList<String> students;
 
     public Course(String courseId, String title, String description, String instructorId,
-                  ArrayList<Lesson> lessons, ArrayList<String> students){
+                  ArrayList<String> lessons, ArrayList<String> students){
         this.courseId = courseId;
         this.title = title;
         this.description = description;
@@ -40,7 +40,7 @@ public class Course {
     }
 
     public void addLesson(Lesson lesson){
-        this.lessons.add(lesson);
+        this.lessons.add(lesson.getLessonId());
     }
 
     public void addStudent(Student student){
@@ -59,10 +59,10 @@ public class Course {
     public void setStudents(ArrayList<String> students) {
         this.students = students;
     }
-    public ArrayList<Lesson> getLessons() {
+    public ArrayList<String> getLessons() {
         return lessons;
     }
-    public void setLessons(ArrayList<Lesson> lessons) {
+    public void setLessons(ArrayList<String> lessons) {
         this.lessons = lessons;
     }
     public String getInstructorId() {
