@@ -13,18 +13,25 @@ public class Student extends User{
     private ArrayList<Backend.Certificate> certificates;
 
     public Student(String userid, String username, String email, String passwordHash,
-                   ArrayList<String> enrolledCourses, ArrayList<String> progress){
+                   ArrayList<String> enrolledCourses, ArrayList<String> completedLessons,
+                   ArrayList<QuizResult> quizResults, ArrayList<Backend.Certificate> certificates){
         super(userid, "Student", username, email, passwordHash);
         if(enrolledCourses != null)
             this.enrolledCourses = enrolledCourses;
         else
             this.enrolledCourses = new ArrayList<>();
-        if(progress != null)
-            this.completedLessons = progress;
+        if(completedLessons != null)
+            this.completedLessons = completedLessons;
         else
             this.completedLessons = new ArrayList<>();
-        this.quizResults = new ArrayList<>();
-        this.certificates = new ArrayList<>();
+        if(quizResults != null)
+            this.quizResults = quizResults;
+        else
+            this.quizResults = new ArrayList<>();
+        if(certificates != null)
+            this.certificates = certificates;
+        else
+            this.certificates = new ArrayList<>();
     }
     public Student(String userid, String username, String email, String passwordHash){
         super(userid, "Student", username, email, passwordHash);

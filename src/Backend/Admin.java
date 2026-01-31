@@ -34,7 +34,7 @@ public class Admin extends User{
         }
         return pendingCourses;
     }
-
+    /*
     public boolean deleteCourse(String courseId){
         DatabaseManager db = new DatabaseManager();
         ArrayList<Course> courses = db.loadCourses();
@@ -78,6 +78,52 @@ public class Admin extends User{
         }
         return false;
     }
+     */
+    public boolean deleteCourse(String courseId) {
+        DatabaseManager db = new DatabaseManager();
+        ArrayList<Course> courses = db.loadCourses();
+        ArrayList<User> users = db.loadUsers();
+        ArrayList<Lesson> lessons = db.loadLessons();
+
+        for (int i = 0; i < courses.size(); i++) {
+            if (courses.get(i).getCourseId().equalsIgnoreCase(courseId)) {
+                courses.remove(i);
+
+                // Update Students
+                for (User user : users) {
+                    if (user instanceof Student) {
+                        Student student = (Student) user;
+
+                        // 1. Remove from enrolled courses
+                        student.getEnrolledCourses().removeIf(id -> id.equalsIgnoreCase(courseId));
+
+                        // 2. Remove Certificates for this course
+                        student.getCertificates().removeIf(cert -> cert.getCourseId().equalsIgnoreCase(courseId));
+
+                        // 3. Remove Quiz Results for this course
+                        student.getQuizResults().removeIf(res -> res.getCourseId().equalsIgnoreCase(courseId));
+                    }
+                }
+
+                // Update Instructors
+                for (User user : users) {
+                    if (user instanceof Instructor) {
+                        ((Instructor) user).getCreatedCourses().removeIf(id -> id.equalsIgnoreCase(courseId));
+                    }
+                }
+
+                // Remove Lessons
+                lessons.removeIf(lesson -> lesson.getCourseId().equalsIgnoreCase(courseId));
+
+                db.saveCourses(courses);
+                db.saveUsers(users);
+                db.saveLessons(lessons);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean deleteUser(String userId){
         DatabaseManager db = new DatabaseManager();
         ArrayList<User> users = db.loadUsers();
