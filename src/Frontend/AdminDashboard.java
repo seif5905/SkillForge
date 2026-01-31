@@ -51,7 +51,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         JButton logoutBtn = new JButton("Logout");
         logoutBtn.addActionListener(e -> {
             this.dispose();
-            new LoginFrame().setVisible(true);
+            new WelcomePage().setVisible(true);
         });
 
         headerPanel.add(welcomeLabel, BorderLayout.WEST);

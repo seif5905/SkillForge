@@ -97,4 +97,22 @@ public class DatabaseManager {
         }
         return null;
     }
+    public ArrayList<Lesson> getLessonsForCourse(String courseId) {
+        Course course = getCourseById(courseId);
+        ArrayList<Lesson> courseLessons = new ArrayList<>();
+
+        if (course != null && course.getLessons() != null) {
+            ArrayList<Lesson> allLessons = loadLessons();
+            for (String lessonId : course.getLessons()) {
+                for (Lesson lesson : allLessons) {
+                    if (lesson.getLessonId().equalsIgnoreCase(lessonId)) {
+                        courseLessons.add(lesson);
+                        break;
+                    }
+                }
+            }
+        }
+
+        return courseLessons;
+    }
 }

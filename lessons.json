@@ -1,0 +1,90 @@
+[
+  {
+    "lessonId": "001",
+    "courseId": "cs101",
+    "title": "hello world",
+    "content": "learn printing",
+    "quizzes": [
+      {
+        "quizId": "002",
+        "title": "yes",
+        "passingScore": "50",
+        "questions": [
+          {
+            "questionId": "001",
+            "questionTitle": "YES?",
+            "choices": [
+              "NO",
+              "NO",
+              "YES",
+              "NO"
+            ],
+            "correctChoice": 3
+          }
+        ]
+      },
+      {
+        "quizId": "001",
+        "title": "main quiz",
+        "passingScore": "70",
+        "questions": [
+          {
+            "questionId": "001",
+            "questionTitle": "1",
+            "choices": [
+              "1",
+              "22",
+              "2",
+              "2"
+            ],
+            "correctChoice": 1
+          },
+          {
+            "questionId": "002",
+            "questionTitle": "2",
+            "choices": [
+              "2",
+              "3",
+              "4",
+              "5"
+            ],
+            "correctChoice": 1
+          },
+          {
+            "questionId": "003",
+            "questionTitle": "3",
+            "choices": [
+              "1",
+              "2",
+              "3",
+              "4"
+            ],
+            "correctChoice": 3
+          },
+          {
+            "questionId": "004",
+            "questionTitle": "9",
+            "choices": [
+              "1",
+              "5",
+              "7",
+              "9"
+            ],
+            "correctChoice": 4
+          },
+          {
+            "questionId": "005",
+            "questionTitle": "done?",
+            "choices": [
+              "no",
+              "done",
+              "no",
+              "no"
+            ],
+            "correctChoice": 2
+          }
+        ]
+      }
+    ]
+  }
+]

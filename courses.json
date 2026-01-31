@@ -1,17 +1,15 @@
 [
   {
     "courseId": "cs101",
-    "title": "Java Programming",
-    "description": "learn Java",
-    "instructorId": "14005",
-    "status": "Pending",
+    "title": "java",
+    "description": "learn it",
+    "instructorId": "78892",
+    "status": "Approved",
     "lessons": [
-      {
-        "lessonId": "001",
-        "title": "hello world",
-        "content": "learn printing"
-      }
+      "001"
     ],
-    "students": []
+    "students": [
+      "13566"
+    ]
   }
 ]

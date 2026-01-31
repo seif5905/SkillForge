@@ -164,11 +164,26 @@ public class Instructor extends User{
 
         return false;
     }
-    /*
-    public boolean deleteQuiz(){
 
+    public boolean deleteQuiz(String courseId, String lessonId, String quizId){
+        DatabaseManager db = new DatabaseManager();
+        ArrayList<Lesson> lessons = db.loadLessons();
+
+        for (int i = 0; i < lessons.size(); i++) {
+            if (lessons.get(i).getLessonId().equalsIgnoreCase(lessonId) && lessons.get(i).getCourseId().equalsIgnoreCase(courseId)){
+
+                for (int j = 0; j < lessons.get(i).getQuizzes().size(); j++) {
+                    if(lessons.get(i).getQuizzes().get(j).getQuizId().equalsIgnoreCase(quizId)){
+                        lessons.get(i).getQuizzes().remove(j);
+                        db.saveLessons(lessons);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
-     */
+
 
     public boolean addQuestion(String courseId, String lessonId, String quizId, String questionId,
                                String questionTitle, ArrayList<String> choices, int passingScore){
@@ -190,11 +205,31 @@ public class Instructor extends User{
         }
         return false;
     }
-    /*
-    public boolean deleteQuestion(){
 
+    public boolean deleteQuestion(String courseId, String lessonId, String quizId, String questionId){
+        DatabaseManager db = new DatabaseManager();
+        ArrayList<Lesson> lessons = db.loadLessons();
+
+        for (int i = 0; i < lessons.size(); i++) {
+            if (lessons.get(i).getLessonId().equalsIgnoreCase(lessonId) && lessons.get(i).getCourseId().equalsIgnoreCase(courseId)){
+
+                for (int j = 0; j < lessons.get(i).getQuizzes().size(); j++) {
+                    if (lessons.get(i).getQuizzes().get(j).getQuizId().equalsIgnoreCase(quizId)){
+
+                        for (int k = 0; k < lessons.get(i).getQuizzes().get(j).getQuestions().size(); k++) {
+                            if (lessons.get(i).getQuizzes().get(j).getQuestions().get(k).getQuestionId().equalsIgnoreCase(questionId)){
+                                lessons.get(i).getQuizzes().get(j).getQuestions().remove(k);
+                                db.saveLessons(lessons);
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
-     */
+
 
     public ArrayList<String> viewEnrolledStudents(String courseId){
         DatabaseManager db = new DatabaseManager();

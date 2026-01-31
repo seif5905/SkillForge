@@ -1,25 +1,58 @@
 [
   {
-    "createdCourses": [
+    "enrolledCourses": [
       "cs101"
     ],
-    "userid": "14005",
-    "role": "Instructor",
-    "username": "ali",
-    "email": "ali@yahoo.com",
-    "passwordHash": "123"
-  },
-  {
-    "enrolledCourses": [],
-    "progress": [],
-    "userid": "73764",
+    "completedLessons": [
+      "001"
+    ],
+    "quizResults": [
+      {
+        "resultId": "83631",
+        "quizId": "001",
+        "lessonId": "001",
+        "courseId": "cs101",
+        "studentId": "13566",
+        "score": 4,
+        "passed": true
+      },
+      {
+        "resultId": "45105",
+        "quizId": "002",
+        "lessonId": "001",
+        "courseId": "cs101",
+        "studentId": "13566",
+        "score": 1,
+        "passed": true
+      }
+    ],
+    "certificates": [
+      {
+        "certificateId": "77993",
+        "studentId": "13566",
+        "studentName": "seif",
+        "courseId": "cs101",
+        "courseTitle": "java"
+      }
+    ],
+    "userid": "13566",
     "role": "Student",
     "username": "seif",
     "email": "seif@yahoo.com",
     "passwordHash": "123"
   },
   {
-    "userid": "66493",
+    "createdCourses": [
+      "cs101"
+    ],
+    "userid": "78892",
+    "role": "Instructor",
+    "username": "ali",
+    "email": "ali@yahoo.com",
+    "passwordHash": "123"
+  },
+  {
+    "userid": "92960",
     "role": "Admin",
     "username": "ahmed",
     "email": "ahmed@yahoo.com",
