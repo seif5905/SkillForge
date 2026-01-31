@@ -21,6 +21,8 @@ public class LoginFrame extends javax.swing.JFrame {
      */
     public LoginFrame() {
         initComponents();
+        setSize(300, 250); // Set a professional default size
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -33,7 +35,6 @@ public class LoginFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton3 = new javax.swing.JButton();
-        setLocationRelativeTo(null);
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();

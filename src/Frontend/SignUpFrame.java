@@ -24,6 +24,8 @@ public class SignUpFrame extends javax.swing.JFrame {
      */
     public SignUpFrame() {
         initComponents();
+        setSize(300, 230); // Set a professional default size
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -36,7 +38,6 @@ public class SignUpFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        setLocationRelativeTo(null);
         jLabel1 = new javax.swing.JLabel();
         usernameTextField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -52,11 +53,11 @@ public class SignUpFrame extends javax.swing.JFrame {
 
         jPanel1.setLayout(new java.awt.GridLayout(5, 5, 5, 5));
 
-        jLabel1.setText("Username : ");
+        jLabel1.setText(" Username : ");
         jPanel1.add(jLabel1);
         jPanel1.add(usernameTextField);
 
-        jLabel2.setText("Email :");
+        jLabel2.setText(" Email :");
         jPanel1.add(jLabel2);
 
         emailTextField.addActionListener(new java.awt.event.ActionListener() {
@@ -66,11 +67,11 @@ public class SignUpFrame extends javax.swing.JFrame {
         });
         jPanel1.add(emailTextField);
 
-        jLabel3.setText("Password :");
+        jLabel3.setText(" Password :");
         jPanel1.add(jLabel3);
         jPanel1.add(passwordtextField);
 
-        jLabel4.setText("Role :");
+        jLabel4.setText(" Role :");
         jPanel1.add(jLabel4);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Student", "Instructor" , "Admin"}));

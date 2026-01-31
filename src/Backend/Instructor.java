@@ -92,7 +92,7 @@ public class Instructor extends User{
         return false;
     }
      */
-    
+
     public boolean deleteCourse(String courseId) {
         DatabaseManager db = new DatabaseManager();
         ArrayList<Course> courses = db.loadCourses();

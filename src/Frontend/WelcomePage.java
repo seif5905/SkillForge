@@ -11,6 +11,8 @@ public class WelcomePage extends javax.swing.JFrame {
      */
     public WelcomePage() {
         initComponents();
+        setSize(600, 400); // Set a professional default size
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -23,7 +25,6 @@ public class WelcomePage extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        setLocationRelativeTo(null);
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();

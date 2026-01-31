@@ -1,5 +1,9 @@
+import Frontend.WelcomePage;
+
 class Main{
     public static void main(String[] args){
-        System.out.println("Hello");
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            new WelcomePage().setVisible(true);
+        });
     }
 }
