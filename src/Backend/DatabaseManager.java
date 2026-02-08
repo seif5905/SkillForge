@@ -10,8 +10,20 @@ import java.util.ArrayList;
 
 public class DatabaseManager {
 
+    public <T> void save(ArrayList<T> list, String filename){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+        try(FileWriter writer = new FileWriter(filename)){
+            gson.toJson(list, writer);
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
     public ArrayList<User> loadUsers(){
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().registerTypeAdapter(User.class, new UserAdapter()).create();
+
         Type userListType = new TypeToken<ArrayList<User>>() {}.getType();
 
         try(FileReader reader = new FileReader("users.json")){
@@ -25,16 +37,8 @@ public class DatabaseManager {
             return new ArrayList<>();
         }
     }
-
     public void saveUsers(ArrayList<User> users){
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-        try(FileWriter writer = new FileWriter("users.json")){
-            gson.toJson(users, writer);
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
+        save(users, "users.json");
     }
 
     public ArrayList<Course> loadCourses(){
@@ -52,15 +56,63 @@ public class DatabaseManager {
             return new ArrayList<>();
         }
     }
-
     public void saveCourses(ArrayList<Course> courses){
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        save(courses, "courses.json");
+    }
 
-        try(FileWriter writer = new FileWriter("courses.json")){
-            gson.toJson(courses, writer);
+    public ArrayList<Lesson> loadLessons(){
+        Gson gson = new Gson();
+        Type userListType = new TypeToken<ArrayList<Lesson>>() {}.getType();
+
+        try(FileReader reader = new FileReader("lessons.json")){
+            ArrayList<Lesson> lessons = gson.fromJson(reader, userListType);
+
+            if(lessons != null)
+                return lessons;
+            return new ArrayList<>();
         }
         catch(IOException e){
-            e.printStackTrace();
+            return new ArrayList<>();
         }
+    }
+    public void saveLessons(ArrayList<Lesson> lessons){
+        save(lessons, "lessons.json");
+    }
+
+    public Course getCourseById(String courseId){
+        ArrayList<Course> courses = loadCourses();
+
+        for(Course course : courses){
+            if(course.getCourseId().equalsIgnoreCase(courseId))
+                return course;
+        }
+        return null;
+    }
+    public Lesson getLessonById(String lessonId){
+        ArrayList<Lesson> lessons = loadLessons();
+
+        for (Lesson lesson : lessons){
+            if(lesson.getLessonId().equalsIgnoreCase(lessonId))
+                return lesson;
+        }
+        return null;
+    }
+    public ArrayList<Lesson> getLessonsForCourse(String courseId) {
+        Course course = getCourseById(courseId);
+        ArrayList<Lesson> courseLessons = new ArrayList<>();
+
+        if (course != null && course.getLessons() != null) {
+            ArrayList<Lesson> allLessons = loadLessons();
+            for (String lessonId : course.getLessons()) {
+                for (Lesson lesson : allLessons) {
+                    if (lesson.getLessonId().equalsIgnoreCase(lessonId)) {
+                        courseLessons.add(lesson);
+                        break;
+                    }
+                }
+            }
+        }
+
+        return courseLessons;
     }
 }

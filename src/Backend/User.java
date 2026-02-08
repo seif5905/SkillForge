@@ -17,13 +17,19 @@ public class User {
         this.email = email;
         this.passwordHash = passwordHash;
     }
+    public User(String userid, String role, String username, String passwordHash){
+        this.userid = userid;
+        this.role = role;
+        this.username = username;
+        this.passwordHash = passwordHash;
+    }
+
     public boolean signup(){
         DatabaseManager db = new DatabaseManager();
         ArrayList<User> users = db.loadUsers();
         for (int i = 0; i < users.size(); i++) {
             if(users.get(i).getUsername().equalsIgnoreCase(this.username) ||
-                    users.get(i).getEmail().equalsIgnoreCase(this.email) ||
-                    users.get(i).getPasswordHash().equalsIgnoreCase(this.passwordHash))
+                    users.get(i).getEmail().equalsIgnoreCase(this.email))
                 return false;
         }
         users.add(this);
@@ -31,17 +37,16 @@ public class User {
         return true;
     }
 
-    public boolean login() {
+    public User login() {
         DatabaseManager db = new DatabaseManager();
         ArrayList<User> users = db.loadUsers();
         for (User user : users) {
-            if (user.getUsername().equalsIgnoreCase(this.username) &&
+            if ((user.getUsername().equalsIgnoreCase(this.username) || user.getEmail().equalsIgnoreCase(this.email)) &&
                     user.getRole().equalsIgnoreCase(this.role) &&
-                    user.getEmail().equalsIgnoreCase(this.email) &&
                     user.getPasswordHash().equalsIgnoreCase(this.passwordHash))
-                return true;
+                return user;
         }
-        return false;
+        return null;
     }
 
 
